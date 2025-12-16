@@ -31,6 +31,11 @@ func (r *Runtime) numberproto_valueOf(call FunctionCall) Value {
 	return r.toNumber(call.This)
 }
 
+func (r *Runtime) numberproto_toLocaleString(call FunctionCall) Value {
+	call.Arguments = nil
+	return r.numberproto_toString(call)
+}
+
 func (r *Runtime) numberproto_toString(call FunctionCall) Value {
 	var numVal Value
 	switch t := call.This.(type) {
@@ -206,7 +211,7 @@ func createNumberProtoTemplate() *objectTemplate {
 
 	t.putStr("toExponential", func(r *Runtime) Value { return r.methodProp(r.numberproto_toExponential, "toExponential", 1) })
 	t.putStr("toFixed", func(r *Runtime) Value { return r.methodProp(r.numberproto_toFixed, "toFixed", 1) })
-	t.putStr("toLocaleString", func(r *Runtime) Value { return r.methodProp(r.numberproto_toString, "toLocaleString", 0) })
+	t.putStr("toLocaleString", func(r *Runtime) Value { return r.methodProp(r.numberproto_toLocaleString, "toLocaleString", 0) })
 	t.putStr("toPrecision", func(r *Runtime) Value { return r.methodProp(r.numberproto_toPrecision, "toPrecision", 1) })
 	t.putStr("toString", func(r *Runtime) Value { return r.methodProp(r.numberproto_toString, "toString", 1) })
 	t.putStr("valueOf", func(r *Runtime) Value { return r.methodProp(r.numberproto_valueOf, "valueOf", 0) })
